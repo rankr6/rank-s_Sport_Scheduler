@@ -272,12 +272,15 @@ app.get(
   "/admin/createSport",
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
+
     try {
       const sportListInfo = await Sport.getSportName();
+      const userName = request.cookies.fn;
       console.log(sportListInfo);
       if (request.accepts("html")) {
         response.render("admin/createSport", {
           sportListInfo,
+          userName,
           csrfToken: request.csrfToken(),
         });
       } else {
