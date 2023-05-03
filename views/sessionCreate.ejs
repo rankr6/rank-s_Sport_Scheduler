@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        var token = document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute("content");
+        function deleteSportSession(id) {
+            fetch(`/sessionCreate/${id}`,
+                {
+                    method: "delete",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        "_csrf": token
+                    })
+                })
+                .then((res) => {
+                    if (res.ok) {
+                        window.location.reload();
+                    }
+                })
+                .catch((err) => console.error(err));
+        }
+    </script>
+    <title>Sport list</title>
+</head>
+
+<body>
+    <%- include('header.ejs',{data:userName}) %>
+
+        </div>
+        <div class="SessionName">
+            <h1 class="mx-14 py-4 text-3xl font-semibold">New <%= sportDetail.SportName %> Session</h1>
+        </div>
+        <div>
+            <div class="h-full max-h-full flex flex-col items-center justify-center content-center p-20 ">
+                <div class="text-black font-bold px-6 py-9 bg-gray-300 rounded-md shadow-2xl">
+                    <form action="/sessionCreate/<%= sportDetail.id %>" method="post">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                        <div class="mb-5 flex flex-row space-x-28 items-center">
+                            <label for="date">Date =></label>
+                            <input type="date" name="date"
+                                class="border border-gray-300 leading-4 rounded text-gray-900 w-full text-sm p-2"
+                                required>
+                        </div>
+                        <div class="mb-5 flex flex-row space-x-28 items-center">
+                            <label for="time">Time =></label>
+                            <input type="time" name="time"
+                                class="border border-gray-300 leading-4 rounded text-gray-900 w-full text-sm p-2"
+                                required>
+                        </div>
+                        <div class="mb-5 flex flex-row space-x-28 items-center">
+                            <label for="place">Place =></label>
+                            <input type="text" name="place" placeholder="What's the place of sport?"
+                                class="border border-gray-300 leading-4 rounded text-gray-900 w-full text-sm p-2"
+                                required>
+                        </div>
+                        <div class="mb-5 flex flex-row space-x-28 items-center">
+                            <label for="player">Player =></label>
+                            <input type="text" name="player" placeholder="What's the name of players?(comma saperated)"
+                                class="border border-gray-300 leading-4 rounded text-gray-900 w-full text-sm p-2"
+                                required>
+                        </div>
+                        <div class="mb-5 flex flex-row space-x-28 items-center">
+                            <label for="TotalPlayer">Total Player =></label>
+                            <input type="number" name="TotalPlayer" placeholder="What's the total of player?"
+                                class="border border-gray-300 leading-4 rounded text-gray-900 w-full text-sm p-2"
+                                required>
+                        </div>
+                        <div>
+                            <button type="submit"
+                                class="bg-green-600 px-5 py-1.5 mr-2 font-medium text-white rounded">Add</button>
+                        </div>
+                </div>
+                </form>
+                <div class="h-full max-h-full flex flex-col items-center justify-center content-center p-20 ">
+                    <div class="text-black font-bold px-6 py-9 bg-gray-300 rounded-md shadow-2xl">
+                        <a href="/sportDetail/<%= sportDetail.id %>" class="content-center text-center">>View
+                            Sessions</a><br>
+                        <br><a href="/SportList" class="text-center">>Home</a>
+                    </div>
+                </div>
+            </div>
+
+            <% if(messages && messages.error && messages.error.length> 0) { %>
+                <% for(var i=0; i<messages.error.length; i++) { %>
+                    <p class="bg-red-100 border border-gray-300 p-2 font-medium rounded text-red-900 px-4 py-2">
+                        <%= messages.error[i] %>
+                    </p>
+                    <% } %>
+                        <% } %>
+                            <div class="col-start-3 col-span-2">
+                                <%- include('footer.ejs') %>
+                            </div>
+        </div>
+        </div>
+</body>
+
+</html>
