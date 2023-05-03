@@ -239,7 +239,7 @@ app.post(
     failureFlash: true,
   }),
   (request, response) => {
-      response.redirect("/admin/createSport");    
+      response.redirect("/sportList");    
   }
 );
 
