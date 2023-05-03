@@ -239,13 +239,7 @@ app.post(
     failureFlash: true,
   }),
   (request, response) => {
-    if (request.user.isAdmin === true) {
-      response.redirect("/admin/createSport");
-    } else {
-      //response.send(request.body);
-      response.redirect("/SportList");
-      // }
-    }
+      response.redirect("/admin/createSport");    
   }
 );
 
